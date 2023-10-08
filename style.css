@@ -1,0 +1,17 @@
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+}
+#text-box {
+    min-height: 50px;
+    min-width: 80%;
+    background-color: RGB(224, 201, 166);
+    padding: 5px;
+    border-bottom: 25px;
+    box-shadow: 0 0 5px 2px ;
+    
+  }
+   
