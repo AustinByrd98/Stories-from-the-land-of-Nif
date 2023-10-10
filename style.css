@@ -14,4 +14,17 @@ body{
     box-shadow: 0 0 5px 2px ;
     
   }
+  
+  #inventory{
+    height: 50vh;
+    background-color: rgb(45, 45, 45);
+    visibility: visible;
+    opacity: .9;
+  }
+  .itemPics{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 10vh
+  }
+  
    
