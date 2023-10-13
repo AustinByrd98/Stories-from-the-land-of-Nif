@@ -3,6 +3,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    background-image: url(./assets/vecteezy_farm-fantasy-backdrop-concept-art-realistic-illustration_22807383_565.jpg);
+    background-size: 210vh;
 
 }
 #text-box {
@@ -12,19 +14,34 @@ body{
     padding: 5px;
     border-bottom: 25px;
     box-shadow: 0 0 5px 2px ;
+    position: absolute;
     
   }
-  
+  #container{
+    position: relative;
+    right: 290px;
+  }
   #inventory{
     height: 50vh;
     background-color: rgb(45, 45, 45);
     visibility: visible;
     opacity: .9;
+   
   }
   .itemPics{
     display: flex;
     flex-direction: column-reverse;
     height: 10vh
   }
+  .enemyPics{
+    height:75vh;
+  }
   
+  #badGuys{
+    height: 50vh;
+    width: 40vw;
+    position: relative;
+    left: 300px;
+    top: -200px;
+  }
    

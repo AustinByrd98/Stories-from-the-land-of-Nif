@@ -6,26 +6,33 @@
 // 10/9 only worrying about the inventory today
 const startGame = () => {
   state = {};
-  showText(0);
+  showText(0,textNodes);
 };
 class Player {
   constructor(name) {
     this.name = name;
     this.health = 74;
     // may use .find to check if something is in inventory if that is needed
-    this.inventory = [];
+    this.inventory = []
+    this.attacks= {
+        sword: 15
+    }
   }
-  // attack and defend methods
+  attack(target){
+    target.health-= this.attacks.sword
+  }
+
   useItem(item) {
     item.use();
-  }
-  getItem(item,source){
+    }
+  getItem(item,source,id){
     this.inventory.push(item)
-
+// adds the item picture to the inventory
     const inventory= document.getElementById("inventory")
     const img= document.createElement("img")
     img.className="itemPics"
     img.src = source
+    img.setAttribute("id",id)
     inventory.appendChild(img)
   }
 }
@@ -40,17 +47,29 @@ class Enemy {
   constructor(name) {
     this.name = name;
     this.health = 75;
+    this.attacks = {
+        boneSlash: Math.floor(Math.random() * 15)
+        }
+    }
+    attack(){
+    adventurer.health-= this.attacks.boneSlash
+    }
   }
-  attck() {
-    // can make this a random function maxing out at 15
-    adventurer.health - 10;
-  }
-}
+ 
+
 class EvilWizard extends Enemy {
   constructor(name) {
     super(name);
     this.health = 90;
   }
+}
+const displayEnemey = (source,id)=>{
+    const badGuysBox= document.getElementById("badGuys")
+    const img= document.createElement("img")
+    img.className="enemyPics"
+    img.src = source
+    img.setAttribute("id",id)
+    badGuysBox.appendChild(img)
 }
 const bones = new Enemy("bones");
 const EvilbadWizard = new EvilWizard("evil wizard");
@@ -65,22 +84,30 @@ const healthPotion = new UseableItem("health potion", () => {
   } else if (adventurer.health <= 75) {
     adventurer.health += 25;
   }
-});
+},"healthPotion");
 
-const sword = new UseableItem("sword", () => {
-  Enemy.health--;
-  console.log(bones);
-});
+const useHealthpotion=()=>{
+    const img=document.getElementById("healthPotion")
+    img.addEventListener("click",()=>{adventurer.useItem(healthPotion)
+        const div =document.getElementById("inventory")
+        div.removeChild(img)
+        console.log("yes")
+    })
+}
+
+const sword = new UseableItem("sword");
 
 const shield = new UseableItem("shield", () => {
+    adventurer.inventory.shield=true
     // not sure how i will  block an attack yet -
-});
-
-adventurer.useItem(sword);
+},"shield");
+// i think this is testing i can remove it later if nothing is breaking
+//adventurer.useItem(sword);
 const buttonAction=()=>{
 
 }
 let state = {};
+let keepState=0
 const textNodes = [
   {
     index: 0,
@@ -88,7 +115,8 @@ const textNodes = [
     options: [
       {
         text: "drink the potion",
-        // health potion function here
+        action:()=>{adventurer.useItem(healthPotion)
+        console.log(adventurer.health)},
         nextText: 1,
       },
       {
@@ -140,7 +168,7 @@ const textNodes = [
     text:"Make sure you get your sword and shield. You will need them!",
     options:[
         {
-            text: "Pick up sword and shield",
+            text: "Pick up your sword and shield",
             nextText: 5,
             action:()=>{adventurer.getItem(sword,"./assets/—Pngtree—silver short sword decorative illustration_4707805.png")
             adventurer.getItem(shield,"./assets/Daco_6138019.png")
@@ -150,11 +178,62 @@ const textNodes = [
   },
   {
     index:5,
-    text:"loram",
+    text:"Now let's not waste any more time. We must make for the forest of frogs just outside of the Wizard's castle. ",
     options:[
         {
-            text:"things"
+            text:"Ok I'm waiting on you",
+            nextText: 6,
+            action:()=>{
+                document.body.style.backgroundImage ="url(./assets/vecteezy_deep-forest-fantasy-backdrop-concept-art-realistic_22807025_774.jpg"
+            }
         }
+    ]
+  },
+  {
+    index: 6,
+    text:"Once you get past the frogs this place is quite beautiful.",
+    options:[
+        {
+            text:"I'm not here for sight seeing",
+            action:()=>{displayEnemey("assets/alekzander-zagorulko-undex-creatures-01.png","skeleton")},
+            nextText:7
+        }
+    ]
+  },
+  {
+    index: 7,
+    text:"Oh that's right! We are on a mission. But if you would have done a litte sight seeing you have noticed that skeleton creature that's about to attack you.",
+    options:[
+        {
+            text:"You have been suprised!!",
+            nextText:8,
+            action:()=>{
+                keepState=8
+                letsFight()
+            }
+
+        }
+    ]
+  },
+  {
+    index:8,
+    text:"the congads on winning that fight",
+    options:[
+        {
+            text:"lets get going",
+            nextText:9
+        }
+    ]
+  },
+  {
+    index:9,
+    text:"things",
+    options:[
+       {
+        text:"things",
+        nextText:10
+       }
+
     ]
   }
 ];
@@ -167,8 +246,8 @@ const checkTextIndex = (textIndex) => {
   return textNodes.index === textIndex;
 };
 
-const showText = (textIndex) => {
-  const currentTextNode = textNodes.find((textObject) => {
+const showText = (textIndex, nodes) => {
+  const currentTextNode = nodes.find((textObject) => {
     return textObject.index === textIndex;
   });
   console.log(textIndex);
@@ -186,19 +265,16 @@ const showText = (textIndex) => {
     button.innerText = options.text;
     button.classList.add("btn");
     optionButtions.appendChild(button);
-    button.addEventListener("click", () => clickOption(options));
+    button.addEventListener("click", () => clickOption(options,nodes));
     console.log(button);
     //}
   });
 };
-const clickOption = (options) => {
+const clickOption = (options,nodes) => {
   const nextTextId = options.nextText;
   // might need an if statement here for if an option restarts the game
   state = Object.assign(state, options.setState);
-  console.log(options);
-  console.log(options.nextText);
-  console.log(nextTextId);
-  showText(nextTextId);
+  showText(nextTextId,nodes);
   if("action" in options){
     options.action()
   }
@@ -209,5 +285,68 @@ const checkRequirement = (option) => {
   return option.requirment === null || option.requirment(state);
 };
 
+const checkWinOrLose=(enemy)=>{
+    if(adventurer.health<=0){
+        textElement.innerText="Im sorry Adventure but you have died"
+    }
+    if(enemy.health<=0){
+        console.log(bones.health)
+        showText(2,fightNodes)
+    }
+}
+
+// fight function
+const fightNodes=[
+    {
+        index:0,
+        text:`You have been hit and lost  ${bones.attacks.boneSlash} HP.`,
+        options:[
+            {
+                text:"keep fighting",
+                action:()=>{bones.attack()
+                console.log(adventurer.health)
+                console.log(bones.health)
+                },
+                nextText:1
+            }
+        ]
+    },
+    {
+        index:1,
+        text:"you turn to attack",
+        options:[
+            {
+                text:"attack with sword",
+                action:()=>{adventurer.attack(bones)
+                checkWinOrLose(bones)},
+                nextText:0
+
+            },
+            {
+                text:"attack with shield",
+                nextText:0
+            }
+        ]
+    },
+    {
+        index: 2,
+        text:"you have defeated you foe. Congratulations!!",
+        options:[
+            {
+                text:"Lets warp this up!",
+                nextText:0,
+                action:()=>{showText(keepState,textNodes)}
+            }
+        ]
+    }
+]
+const letsFight =()=>{
+    showText(0,fightNodes)
+   
+    console.log(keepState)
+
+}
+
 console.log(Player);
+
 startGame();
