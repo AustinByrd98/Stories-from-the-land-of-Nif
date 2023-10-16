@@ -6,7 +6,7 @@
 const startGame = () => {
   state = {};
   showText(0, textNodes);
-  displayHealth(bones)
+  displayHealth(null)
 };
 class Player {
   constructor(name) {
@@ -99,9 +99,10 @@ const healthPotion = new UseableItem(
     if (adventurer.health < 100 && adventurer.health > 75) {
       const difference = 100 - adventurer.health;
       adventurer.health += difference;
-      console.log("test");
+      displayHealth(null);
     } else if (adventurer.health <= 75) {
       adventurer.health += 25;
+      displayHealth(null)
     }
   },
   "healthPotion"
@@ -145,10 +146,11 @@ const eyeOfGoodness= new UseableItem("eye of goodness",()=>{
         evilbadWizard-=75
 })
 
+
+
+
 let keepState = 0;
-let attacker = {
-  health: 0
-};
+let attacker = {};
 
 const textNodes = [
   {
@@ -511,7 +513,7 @@ const textNodes = [
   },
   {
     index: 100,
-    text: `You have been hit. Your health is at ${adventurer.health}`,
+    text: `You have been hit.`,
     options: [
       {
         text: "keep fighting",
@@ -519,7 +521,7 @@ const textNodes = [
           attacker.attack();
           console.log(adventurer.health);
           console.log(attacker.health);
-          //showText(101,textNodes)
+          displayHealth(attacker)
         },
         nextText: 101,
       },
@@ -527,7 +529,7 @@ const textNodes = [
   },
   {
     index: 101,
-    text: `You're turn to attack. Your opponent's health is at ${attacker.health}`,
+    text: `You're turn to attack.`,
     options: [
       {
         text: "attack with sword",
@@ -536,6 +538,7 @@ const textNodes = [
           checkWinOrLose(attacker);
           console.log(attacker)
           console.log(attacker.health)
+          displayHealth(attacker)
           //showText(100,textNodes)
         },
         nextText: 100,
@@ -609,11 +612,13 @@ const checkRequirement = (option) => {
 };
 
 const checkWinOrLose = (enemy) => {
+  console.log(enemy)
   if (adventurer.health <= 0) {
     textElement.innerText = "Im sorry Adventure but you have died";
   }
   if (enemy.health <= 0) {
-    console.log(attacker.health);
+    console.log("enemy i sdead");
+    console.log(keepState)
     showText(keepState, textNodes);
   }
 };
@@ -628,8 +633,16 @@ const letsFight = (attacker, node) => {
 const displayHealth =(enemy)=>{
   const playerHealth =document.getElementById("playerHealth")
   const enemyHealth = document.getElementById("enemyHealth")
-  playerHealth.innerText = `Adventure's health: ${adventurer.health}`
-  enemyHealth.innerText = `${enemy.name}'s health: ${enemy.health}`
+  
+  if (enemy===null)
+  {
+    playerHealth.innerText = `Adventure's health: ${adventurer.health}`
+   
+    
+  } else{
+    enemyHealth.innerText = `${enemy.name}'s health: ${enemy.health}`
+    playerHealth.innerText = `Adventure's health: ${adventurer.health}`
+  }
 
 }
 
