@@ -19,13 +19,14 @@ body{
   }
   #container{
     position: relative;
-    right: 290px;
+    right: 35vw;
   }
   #inventory{
     height: 50vh;
     background-color: rgb(45, 45, 45);
     visibility: visible;
     opacity: .9;
+    
    
   }
   .itemPics{
@@ -38,10 +39,33 @@ body{
   }
   
   #badGuys{
+   
+    
     height: 50vh;
     width: 40vw;
     position: relative;
-    left: 300px;
+    left: 00px;
     top: -200px;
+    
+  }
+
+  #weakSkeleton1{
+    position: relative;
+    left: 100px;
+    top: -470px;
+  }
+  #weakSkeleton2{
+    position: relative;
+    left: -470px;
+    top: -800px;
+  }
+  #hiddenSkull{
+    height: 5vh;
+    opacity: .3
+  }
+  #health{
+    position: relative;
+    top: -80vh;
+    right: 15vw
   }
    
