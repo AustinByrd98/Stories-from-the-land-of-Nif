@@ -1,13 +1,25 @@
-// text box code
-// array of text nodes that will be pulled from
-
-//player class will include the inventory, health, name, atack, defend, and use item methods
-// 10/9 only worrying about the inventory today
 const startGame = () => {
   state = {};
   showText(0, textNodes);
   displayHealth(null)
 };
+
+const startStartGame =()=>{
+  const playerNameInput = document.getElementById("input")
+  const startGameBtn = document.getElementById("startGame")
+  textElement.innerText="Hello adventure before we start our adventure tell me your name."
+  startGameBtn.addEventListener("click",()=>{
+    localStorage.setItem("playerName",playerNameInput.value)
+     
+      startGameBtn.remove()
+      playerNameInput.remove()
+      startGame()
+  })
+  }
+  const makeName =()=>{
+    return playerName
+  }
+
 class Player {
   constructor(name) {
     this.name = name;
@@ -25,7 +37,7 @@ class Player {
   useItem(item) {
     item.use();
   }
-  getItem(item, source, id) {
+  getItem(item, source, id,boolean) {
     this.inventory.push(item);
     // adds the item picture to the inventory
     const inventory = document.getElementById("inventory");
@@ -34,6 +46,13 @@ class Player {
     img.src = source;
     img.setAttribute("id", id);
     inventory.appendChild(img);
+    if(boolean===true){
+      makeClickableImage(
+        "healthPotion",
+        "inventory",
+        adventurer.useItem(healthPotion)
+      );
+    }
   }
 }
 
@@ -96,17 +115,23 @@ const healthPotion = new UseableItem(
   "health potion",
   () => {
     //if statements that make sure that the health can't go above 100
+    console.log(`player health${adventurer.health}`)
     if (adventurer.health < 100 && adventurer.health > 75) {
+      console.log(`player health if${adventurer.health}`)
       const difference = 100 - adventurer.health;
       adventurer.health += difference;
-      displayHealth(null);
+     //displayHealth(null);
     } else if (adventurer.health <= 75) {
+      console.log(`player health else${adventurer.health}`)
       adventurer.health += 25;
-      displayHealth(null)
+      //displayHealth(null)
     }
+    console.log(`current player health ${adventurer.health}`)
   },
   "healthPotion"
 );
+
+
 
 const makeClickableImage = (id, location, callback) => {
   const button = document.createElement("button");
@@ -120,6 +145,13 @@ const makeClickableImage = (id, location, callback) => {
     console.log("yes");
   });
 };
+
+const displayClickableImg =(id,location,callback)=>{
+  return makeClickableImage(id,location,callback)
+}
+
+
+
 const attackHiddenEnemeys = (source, id, index) => {
   console.log("jlh");
   // displayEnemey(source,id)
@@ -155,7 +187,7 @@ let attacker = {};
 const textNodes = [
   {
     index: 0,
-    text: `Hello adventurer (name here). After the night you had I imagine you feel like poop. Your health is at ${adventurer.health}.  Here have a health potion.`,
+    text: `Hello adventurer ${localStorage.getItem("playerName")}. After the night you had I imagine you feel like poop. Your health is at ${adventurer.health}.  Here have a health potion.`,
     options: [
       {
         text: "drink the potion",
@@ -178,13 +210,10 @@ const textNodes = [
           adventurer.getItem(
             healthPotion,
             "./assets/pngaaa.com-5184525.png",
-            "healthPotion"
+            "healthPotion", true
           );
-          makeClickableImage(
-            "healthPotion",
-            "inventory",
-            adventurer.useItem(healthPotion)
-          );
+         
+         
         },
       },
     ],
@@ -201,7 +230,7 @@ const textNodes = [
         text: "No let me sleep!",
         nextText: 3,
         action: () => {
-          setTimeout(startGame, 3000);
+          setTimeout(location.reload(), 400000);
         },
       },
     ],
@@ -219,6 +248,11 @@ const textNodes = [
   {
     index: 3,
     text: "OK that's fine it is probably too great a quest for you anyway",
+    options:[
+        {
+          text:"nothing"
+        }
+    ]
   },
   {
     index: 4,
@@ -324,6 +358,15 @@ const textNodes = [
           );
           adventurer.getItem(superAxe, "assets/pngegg (1).png", "superAxe");
           removeEnemy("skeleton");
+          adventurer.getItem(
+            healthPotion,
+            "./assets/pngaaa.com-5184525.png",
+            "healthPotion"
+          );
+          makeClickableImage(
+            "healthPotion",
+            "inventory",
+            adventurer.useItem(healthPotion))
         },
       },
     ],
@@ -401,7 +444,9 @@ const textNodes = [
       {
         text: "OK",
         nextText: 16,
-        //action: background change here
+        action:()=>{
+          displayEnemey("assets/kisspng-suikoden-tierkreis-suikoden-iii-pathfinder-rolepla-metal-character-design-5b4920209eaa68.9530504115315190086499.png","kingTabak")
+        }
       },
     ],
   },
@@ -510,6 +555,9 @@ const textNodes = [
     options: [
       {
         text: "end game",
+        action:()=>{
+          location.reload()
+        }
       },
     ],
   },
@@ -522,7 +570,7 @@ const textNodes = [
         action: () => {
           attacker.attack();
           console.log(adventurer.health);
-          console.log(attacker.health);
+          console.log(attacker.attacks.boneSlash);
           displayHealth(attacker)
         },
         nextText: 101,
@@ -645,4 +693,5 @@ const displayHealth =(enemy)=>{
 }
 
 console.log(Player);
-startGame();
+startStartGame()
+//startGame();
