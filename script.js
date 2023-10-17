@@ -308,6 +308,7 @@ const textNodes = [
         text: " Ignore the items and keep moving",
         nextText: 9,
         action: () => {
+          displayHealth(null)
           removeEnemy("skeleton");
         },
       },
@@ -315,6 +316,7 @@ const textNodes = [
         text: "pick up the items",
         nextText: 10,
         action: () => {
+          displayHealth(null)
           adventurer.getItem(
             goldCoin,
             "assets/—Pngtree—gold coin_3779125.png",
@@ -328,11 +330,11 @@ const textNodes = [
   },
   {
     index: 9,
-    text: "things",
+    text: "Ok well you are mighty decated to seeing this wizard dead. I just hope you don't need any of those things.",
     options: [
       {
-        text: "things",
-        nextText: 10,
+        text: "Naw I'll be fine",
+        nextText: 11,
       },
     ],
   },
@@ -601,10 +603,10 @@ const clickOption = (options, nodes) => {
   const nextTextId = options.nextText;
   // might need an if statement here for if an option restarts the game
   state = Object.assign(state, options.setState);
+  showText(nextTextId, nodes)
   if ("action" in options) {
     options.action();
   } 
-  showText(nextTextId, nodes);
 };
 
 const checkRequirement = (option) => {
@@ -612,13 +614,9 @@ const checkRequirement = (option) => {
 };
 
 const checkWinOrLose = (enemy) => {
-  console.log(enemy)
   if (adventurer.health <= 0) {
     textElement.innerText = "Im sorry Adventure but you have died";
-  }
-  if (enemy.health <= 0) {
-    console.log("enemy i sdead");
-    console.log(keepState)
+  } else if (enemy.health <= 0) {
     showText(keepState, textNodes);
   }
 };
