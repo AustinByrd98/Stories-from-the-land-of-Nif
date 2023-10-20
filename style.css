@@ -1,70 +1,77 @@
-body{
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    background-image: url(./assets/vecteezy_farm-fantasy-backdrop-concept-art-realistic-illustration_22807383_565.jpg);
-    background-size: 210vh;
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-image: url(./assets/vecteezy_farm-fantasy-backdrop-concept-art-realistic-illustration_22807383_565.jpg);
+  background-size: 210vh;
 
 }
-#text-box {
-    min-height: 50px;
-    max-width: 80%;
-    min-width: 80%;
-    background-color: RGB(224, 201, 166);
-    padding: 5px;
-    border-bottom: 25px;
-    box-shadow: 0 0 5px 2px ;
-    position: absolute;
-    
-  }
-  #container{
-    position: relative;
-    right: 35vw;
-  }
-  #inventory{
-    height: 70vh;
-    background-color: rgb(45, 45, 45);
-    visibility: visible;
-    opacity: .9;
-    
-   
-  }
-  .itemPics{
-    display: flex;
-    flex-direction: column-reverse;
-    height: 10vh
-  }
-  .enemyPics{
-    height:75vh;
-  }
-  
-  #badGuys{
-    height: 50vh;
-    width: 40vw;
-    position: relative;
-    left: 00px;
-    top: -200px;
-    
-  }
 
-  #weakSkeleton1{
-    position: relative;
-    left: 100px;
-    top: -470px;
-  }
-  #weakSkeleton2{
-    position: relative;
-    left: -470px;
-    top: -800px;
-  }
-  #hiddenSkull{
-    height: 5vh;
-    opacity: .3
-  }
-  #health{
-    position: relative;
-    top: -80vh;
-    right: 15vw
-  }
-   
+#text-box {
+  min-height: 50px;
+  max-width: 80%;
+  min-width: 80%;
+  background-color: RGB(224, 201, 166);
+  padding: 5px;
+  border-bottom: 25px;
+  box-shadow: 0 0 5px 2px;
+  position: absolute;
+
+}
+
+#container {
+  position: relative;
+  right: 35vw;
+}
+
+#inventory {
+  height: 70vh;
+  background-color: rgb(45, 45, 45);
+  visibility: visible;
+  opacity: .9;
+
+
+}
+
+.itemPics {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 10vh
+}
+
+.enemyPics {
+  height: 75vh;
+}
+
+#badGuys {
+  height: 50vh;
+  width: 40vw;
+  position: relative;
+  left: 00px;
+  top: -200px;
+
+}
+
+#weakSkeleton1 {
+  position: relative;
+  left: 100px;
+  top: -470px;
+}
+
+#weakSkeleton2 {
+  position: relative;
+  left: -470px;
+  top: -800px;
+}
+
+#hiddenSkull {
+  height: 5vh;
+  opacity: .3
+}
+
+#health {
+  position: relative;
+  top: -80vh;
+  right: 15vw
+}
