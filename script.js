@@ -109,18 +109,14 @@ const healthPotion = new UseableItem(
   "health potion",
   () => {
     //if statements that make sure that the health can't go above 100
-    console.log(`player health${adventurer.health}`);
     if (adventurer.health < 100 && adventurer.health > 75) {
-      console.log(`player health if${adventurer.health}`);
       const difference = 100 - adventurer.health;
       adventurer.health += difference;
       displayHealth(null);
     } else if (adventurer.health <= 75) {
-      console.log(`player health else${adventurer.health}`);
       adventurer.health += 25;
       displayHealth(null);
     }
-    console.log(`current player health ${adventurer.health}`);
   },
   "healthPotion"
 );
@@ -134,7 +130,6 @@ const makeClickableImage = (id, location, callback) => {
     callback();
     const div = document.getElementById(location);
     div.removeChild(img);
-    console.log("yes");
   });
 };
 // collectible items below
@@ -174,7 +169,6 @@ const textNodes = [
         action: () => {
           adventurer.useItem(healthPotion);
           displayHealth(null);
-          console.log(adventurer.health);
         },
         nextText: 1,
       },
@@ -333,7 +327,6 @@ const textNodes = [
         nextText: 10,
         action: () => {
           displayHealth(null);
-          console.log(adventurer.health + "player health");
           adventurer.getItem(
             goldCoin,
             "assets/—Pngtree—gold coin_3779125.png",
@@ -349,7 +342,6 @@ const textNodes = [
           makeClickableImage("healthPotion", "inventory", () =>
             adventurer.useItem(healthPotion)
           );
-          console.log(adventurer.health + "player health");
         },
       },
     ],
@@ -456,7 +448,7 @@ const textNodes = [
             eyeOfGoodness,
             "assets/fractal-2038085_640.png",
             "eye"
-          );
+          )
           adventurer.getItem(
             healthPotion,
             "./assets/pngaaa.com-5184525.png",
@@ -465,7 +457,6 @@ const textNodes = [
           makeClickableImage("healthPotion", "inventory", () =>
             adventurer.useItem(healthPotion)
           );
-          console.log(adventurer.health + "player health");
           makeClickableImage("eye", "inventory", () =>
             adventurer.useItem(eyeOfGoodness)
           );
@@ -594,11 +585,6 @@ const textNodes = [
         text: "keep fighting",
         action: () => {
           attacker.attack();
-          console.log(attacker);
-          console.log(adventurer.health);
-          console.log(adventurer.attacks.superAxeCheck + "object");
-          console.log(typeof adventurer.health);
-          console.log(attacker.attacks.boneSlash);
           displayHealth(attacker);
           checkWinOrLose(attacker);
         },
@@ -615,8 +601,6 @@ const textNodes = [
         action: () => {
           adventurer.attack(sword, attacker);
           checkWinOrLose(attacker);
-          console.log(attacker);
-          console.log(attacker.health);
           displayHealth(attacker);
         },
         nextText: 100,
@@ -657,8 +641,6 @@ const showText = (textIndex, nodes) => {
   const currentTextNode = nodes.find((textObject) => {
     return textObject.index === textIndex;
   });
-  console.log(textIndex);
-  console.log(currentTextNode);
   textElement.innerText = currentTextNode.text;
 
   while (optionButtions.firstChild) {
@@ -667,18 +649,12 @@ const showText = (textIndex, nodes) => {
 
   //adding button text
   currentTextNode.options.forEach((options) => {
-    console.log(options.requirment);
-    console.log(adventurer.inventory);
-    console.log(options.requirment === undefined);
-    console.log(options.requirment in adventurer.inventory);
-    console.log(checkRequirement(options));
     if (checkRequirement(options)) {
       const button = document.createElement("button");
       button.innerText = options.text;
       button.classList.add("btn");
       optionButtions.appendChild(button);
       button.addEventListener("click", () => clickOption(options, nodes));
-      console.log(button);
     }
   });
 };
@@ -709,8 +685,6 @@ const checkWinOrLose = (enemy) => {
 const letsFight = (attacker, node) => {
   showText(node, fightNodes);
   attacker = attacker;
-  console.log(keepState);
-  console.log(attacker);
 };
 
 const displayHealth = (enemy) => {
@@ -725,7 +699,6 @@ const displayHealth = (enemy) => {
   }
 };
 
-console.log(Player);
 startStartGame();
 
 // Ice box
