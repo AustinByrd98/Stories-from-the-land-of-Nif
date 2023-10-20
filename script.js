@@ -453,14 +453,14 @@ const textNodes = [
         nextText: 17,
         action: () => {
           adventurer.getItem(
-            healthPotion,
-            "./assets/pngaaa.com-5184525.png",
-            "healthPotion"
-          );
-          adventurer.getItem(
             eyeOfGoodness,
             "assets/fractal-2038085_640.png",
             "eye"
+          );
+          adventurer.getItem(
+            healthPotion,
+            "./assets/pngaaa.com-5184525.png",
+            "healthPotion"
           );
           makeClickableImage("healthPotion", "inventory", () =>
             adventurer.useItem(healthPotion)
