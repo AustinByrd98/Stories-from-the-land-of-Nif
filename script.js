@@ -1,43 +1,41 @@
 const startGame = () => {
   state = {};
   showText(0, textNodes);
-  displayHealth(null)
+  displayHealth(null);
 };
 
-const startStartGame =()=>{
-  const playerNameInput = document.getElementById("input")
-  const startGameBtn = document.getElementById("startGame")
-  textElement.innerText="Hello adventure before we start our adventure tell me your name."
-  startGameBtn.addEventListener("click",()=>{
-    localStorage.setItem("playerName",playerNameInput.value)
-     
-      startGameBtn.remove()
-      playerNameInput.remove()
-      startGame()
-  })
-  }
-  const makeName =()=>{
-    return playerName
-  }
+const startStartGame = () => {
+  const playerNameInput = document.getElementById("input");
+  const startGameBtn = document.getElementById("startGame");
+  textElement.innerText =
+    "Hello adventure before we start our adventure tell me your name.";
+  startGameBtn.addEventListener("click", () => {
+    localStorage.setItem("playerName", playerNameInput.value);
+
+    startGameBtn.remove();
+    playerNameInput.remove();
+    startGame();
+  });
+};
 
 class Player {
   constructor(name) {
     this.name = name;
     this.health = 75;
-    // may use .find to check if something is in inventory if that is needed
     this.inventory = [];
     this.attacks = {
-      sword: 15,
+      swordCheck: false,
+      superAxeCheck: false,
     };
   }
-  attack(item,target) {
-    item.use(target)
+  attack(item, target) {
+    item.use(target);
   }
 
   useItem(item) {
     item.use();
   }
-  getItem(item, source, id,boolean) {
+  getItem(item, source, id) {
     this.inventory.push(item);
     // adds the item picture to the inventory
     const inventory = document.getElementById("inventory");
@@ -46,12 +44,8 @@ class Player {
     img.src = source;
     img.setAttribute("id", id);
     inventory.appendChild(img);
-    if(boolean===true){
-      makeClickableImage(
-        "healthPotion",
-        "inventory",
-        adventurer.useItem(healthPotion)
-      );
+    if (item === superAxe) {
+      this.attacks.superAxeCheck = true;
     }
   }
 }
@@ -72,7 +66,7 @@ class Enemy {
     this.name = name;
     this.health = 75;
     this.attacks = {
-      boneSlash: Math.floor(Math.random() * 15),
+      boneSlash: Math.floor(Math.random(2) * 10),
     };
   }
   attack() {
@@ -85,14 +79,13 @@ class Enemy {
 
 class EvilWizard {
   constructor(name) {
-    this.name=name
+    this.name = name;
     this.health = 150;
-    this.attacks= 
-      {fireBall: Math.floor(Math.random() * 50)}
-    }
-  attack(){
-      adventurer.health -= this.attacks.fireBall
-    }
+    this.attacks = { fireBall: 50 };
+  }
+  attack() {
+    adventurer.health -= this.attacks.fireBall;
+  }
 }
 const displayEnemey = (source, id) => {
   const badGuysBox = document.getElementById("badGuys");
@@ -106,6 +99,7 @@ const removeEnemy = (id) => {
   const badGuysBox = document.getElementById("badGuys");
   const badGuy = document.getElementById(id);
   badGuysBox.removeChild(badGuy);
+  enemyHealth.innerText = "";
 };
 const bones = new Enemy("bones");
 const evilbadWizard = new EvilWizard("evil wizard");
@@ -115,23 +109,21 @@ const healthPotion = new UseableItem(
   "health potion",
   () => {
     //if statements that make sure that the health can't go above 100
-    console.log(`player health${adventurer.health}`)
+    console.log(`player health${adventurer.health}`);
     if (adventurer.health < 100 && adventurer.health > 75) {
-      console.log(`player health if${adventurer.health}`)
+      console.log(`player health if${adventurer.health}`);
       const difference = 100 - adventurer.health;
       adventurer.health += difference;
-     //displayHealth(null);
+      displayHealth(null);
     } else if (adventurer.health <= 75) {
-      console.log(`player health else${adventurer.health}`)
+      console.log(`player health else${adventurer.health}`);
       adventurer.health += 25;
-      //displayHealth(null)
+      displayHealth(null);
     }
-    console.log(`current player health ${adventurer.health}`)
+    console.log(`current player health ${adventurer.health}`);
   },
   "healthPotion"
 );
-
-
 
 const makeClickableImage = (id, location, callback) => {
   const button = document.createElement("button");
@@ -139,47 +131,31 @@ const makeClickableImage = (id, location, callback) => {
   button.innerHTML = img;
 
   img.addEventListener("click", () => {
-    callback;
+    callback();
     const div = document.getElementById(location);
     div.removeChild(img);
     console.log("yes");
   });
 };
-
-const displayClickableImg =(id,location,callback)=>{
-  return makeClickableImage(id,location,callback)
-}
-
-
-
-const attackHiddenEnemeys = (source, id, index) => {
-  console.log("jlh");
-  // displayEnemey(source,id)
-  // showText(index,textNodes)
-};
 // collectible items below
 const goldCoin = new CollectibleItem("gold coin");
 const ruby = new CollectibleItem("Ruby of Protection");
 // useable items below
-const sword = new UseableItem("sword",(target)=>{
-target.health-= 10
+const sword = new UseableItem("sword", (target) => {
+  target.health -= 10;
 });
 
-const shield = new UseableItem(
-  "shield",
-  "shield"
-);
+const shield = new UseableItem("shield", "shield");
 
-const superAxe = new UseableItem("Enchanted Axe",(target)=>{
-  target.health-=20
+const superAxe = new UseableItem("Enchanted Axe", (target) => {
+  target.health -= 20;
 });
 
-const eyeOfGoodness= new UseableItem("eye of goodness",()=>{
-        evilbadWizard.health-=75
-})
-
-
-
+const eyeOfGoodness = new UseableItem("eye of goodness", () => {
+  evilbadWizard.health -= 75;
+  evilbadWizard.attacks.fireBall = 15;
+  displayHealth(evilbadWizard);
+});
 
 let keepState = 0;
 let attacker = {};
@@ -187,12 +163,17 @@ let attacker = {};
 const textNodes = [
   {
     index: 0,
-    text: `Hello adventurer ${localStorage.getItem("playerName")}. After the night you had I imagine you feel like poop. Your health is at ${adventurer.health}.  Here have a health potion.`,
+    text: `Hello adventurer ${localStorage.getItem(
+      "playerName"
+    )}. After the night you had I imagine you feel like poop. Your health is at ${
+      adventurer.health
+    }.  Here have a health potion.`,
     options: [
       {
         text: "drink the potion",
         action: () => {
           adventurer.useItem(healthPotion);
+          displayHealth(null);
           console.log(adventurer.health);
         },
         nextText: 1,
@@ -203,24 +184,26 @@ const textNodes = [
       },
       {
         text: "save the potion for later",
-        //function for putting items in inventory
         nextText: 1,
         hasAction: true,
         action: () => {
           adventurer.getItem(
             healthPotion,
             "./assets/pngaaa.com-5184525.png",
-            "healthPotion", true
+            "healthPotion"
           );
-         
-         
+          makeClickableImage("healthPotion", "inventory", () => {
+            adventurer.useItem(healthPotion);
+          });
         },
       },
     ],
   },
   {
     index: 1,
-    text: `Ok ${localStorage.getItem("playerName")} now that you feel well enough to get moving I'll bring you up to speed. Last night there was an attack on our little village of Nif. An evil wizard stole our most precious jem. The Ruby of Protection. It's the gem that has kept our little village heathy, happy, and safe. Now that It's gone everyone is already getting sick and it's up to you to go and get it back. Do you accept this quest?`,
+    text: `Ok ${localStorage.getItem(
+      "playerName"
+    )} now that you feel well enough to get moving I'll bring you up to speed. Last night there was an attack on our little village of Nif. An evil wizard stole our most precious jem. The Ruby of Protection. It's the gem that has kept our little village heathy, happy, and safe. Now that It's gone everyone is already getting sick and it's up to you to go and get it back. Do you accept this quest?`,
     options: [
       {
         text: "Yes I accept!",
@@ -229,9 +212,6 @@ const textNodes = [
       {
         text: "No let me sleep!",
         nextText: 3,
-        action: () => {
-          setTimeout(location.reload(), 400000);
-        },
       },
     ],
   },
@@ -248,11 +228,15 @@ const textNodes = [
   {
     index: 3,
     text: "OK that's fine it is probably too great a quest for you anyway",
-    options:[
-        {
-          text:"nothing"
-        }
-    ]
+    options: [
+      {
+        text: "Yeah probably",
+        action: () => {
+          setTimeout(location.reload(), 400000);
+        },
+        nextText: 1,
+      },
+    ],
   },
   {
     index: 4,
@@ -267,7 +251,6 @@ const textNodes = [
             "./assets/—Pngtree—silver short sword decorative illustration_4707805.png"
           );
           adventurer.getItem(shield, "./assets/Daco_6138019.png");
-          
         },
       },
     ],
@@ -282,7 +265,6 @@ const textNodes = [
         action: () => {
           document.body.style.backgroundImage =
             "url(./assets/vecteezy_deep-forest-fantasy-backdrop-concept-art-realistic_22807025_774.jpg";
-          //displayEnemey("assets/image-from-rawpixel-id-6265744-original.png", "hiddenSkull")
         },
       },
     ],
@@ -328,7 +310,7 @@ const textNodes = [
         nextText: 101,
         action: () => {
           keepState = 8;
-         attacker =bones
+          attacker = bones;
           bones.attack();
         },
       },
@@ -342,7 +324,7 @@ const textNodes = [
         text: " Ignore the items and keep moving",
         nextText: 9,
         action: () => {
-          displayHealth(null)
+          displayHealth(null);
           removeEnemy("skeleton");
         },
       },
@@ -350,7 +332,8 @@ const textNodes = [
         text: "pick up the items",
         nextText: 10,
         action: () => {
-          displayHealth(null)
+          displayHealth(null);
+          console.log(adventurer.health + "player health");
           adventurer.getItem(
             goldCoin,
             "assets/—Pngtree—gold coin_3779125.png",
@@ -358,15 +341,15 @@ const textNodes = [
           );
           adventurer.getItem(superAxe, "assets/pngegg (1).png", "superAxe");
           removeEnemy("skeleton");
-          // adventurer.getItem(
-          //   healthPotion,
-          //   "./assets/pngaaa.com-5184525.png",
-          //   "healthPotion"
-          // );
-          // makeClickableImage(
-          //   "healthPotion",
-          //   "inventory",
-          //   adventurer.useItem(healthPotion))
+          adventurer.getItem(
+            healthPotion,
+            "./assets/pngaaa.com-5184525.png",
+            "healthPotion"
+          );
+          makeClickableImage("healthPotion", "inventory", () =>
+            adventurer.useItem(healthPotion)
+          );
+          console.log(adventurer.health + "player health");
         },
       },
     ],
@@ -380,9 +363,9 @@ const textNodes = [
         nextText: 11,
       },
       {
-        text:"yeah your right let's go back",
-        nextText:8
-      }
+        text: "yeah your right let's go back",
+        nextText: 8,
+      },
     ],
   },
   {
@@ -438,6 +421,10 @@ const textNodes = [
       {
         text: "I'm not sure if I'm ready for this. Lets go back to that meeting place on the note.",
         nextText: 14,
+        action: () => {
+          document.body.style.backgroundImage =
+            "url(./assets/vecteezy_deep-forest-fantasy-backdrop-concept-art-realistic_22807025_774.jpg";
+        },
       },
     ],
   },
@@ -448,9 +435,12 @@ const textNodes = [
       {
         text: "OK",
         nextText: 16,
-        action:()=>{
-          displayEnemey("assets/kisspng-suikoden-tierkreis-suikoden-iii-pathfinder-rolepla-metal-character-design-5b4920209eaa68.9530504115315190086499.png","kingTabak")
-        }
+        action: () => {
+          displayEnemey(
+            "assets/kisspng-suikoden-tierkreis-suikoden-iii-pathfinder-rolepla-metal-character-design-5b4920209eaa68.9530504115315190086499.png",
+            "kingTabak"
+          );
+        },
       },
     ],
   },
@@ -460,35 +450,43 @@ const textNodes = [
     options: [
       {
         text: "Yes, I need all the help I can get.",
-        nextText:17,
+        nextText: 17,
         action: () => {
           adventurer.getItem(
             healthPotion,
             "./assets/pngaaa.com-5184525.png",
             "healthPotion"
           );
-          adventurer.getItem(eyeOfGoodness,"assets/fractal-2038085_640.png","eye")
-          makeClickableImage(
-            "healthPotion",
-            "inventory",
-            adventurer.useItem(healthPotion));
-          makeClickableImage(
-            "eye",
-            "inventory",
-            adventurer.useItem(eyeOfGoodness));
+          adventurer.getItem(
+            eyeOfGoodness,
+            "assets/fractal-2038085_640.png",
+            "eye"
+          );
+          makeClickableImage("healthPotion", "inventory", () =>
+            adventurer.useItem(healthPotion)
+          );
+          console.log(adventurer.health + "player health");
+          makeClickableImage("eye", "inventory", () =>
+            adventurer.useItem(eyeOfGoodness)
+          );
         },
       },
     ],
   },
   {
-    index:17,
-    text:"That Eye of Goodness. When you use it the evil wizard will lose 75 points of health out of his 150. You might just have a chance to bet him!",
-    options:[
+    index: 17,
+    text: "That Eye of Goodness. When you use it the evil wizard will lose 75 points of health out of his 150, and it give you protection from evil magic. You will take less damage from his attack when you activate it when you are fight him. You might just have a chance to bet him!",
+    options: [
       {
-        text:"Awesome well let's go",
-        nextText:13
-      }
-    ]
+        text: "Awesome well let's go",
+        action: () => {
+          removeEnemy("kingTabak");
+          document.body.style.backgroundImage =
+            "url(./assets/ai-generated-8123752_1280.jpg";
+        },
+        nextText: 13,
+      },
+    ],
   },
   {
     index: 15,
@@ -500,7 +498,7 @@ const textNodes = [
         action: () => {
           document.body.style.backgroundImage =
             "url(./assets/vecteezy_inside-the-palace-of-abandoned-magnificent-castle_22263438_117.jpg";
-          adventurer.attack(sword,evilbadWizard);
+          adventurer.attack(sword, evilbadWizard);
         },
       },
     ],
@@ -513,7 +511,7 @@ const textNodes = [
         text: "Let the fight begin!",
         nextText: 19,
         action: () => {
-         attacker= evilbadWizard
+          attacker = evilbadWizard;
           keepState = 20;
           displayEnemey("./assets/PngItem_5746155.png", "evilWizard");
         },
@@ -522,15 +520,12 @@ const textNodes = [
   },
   {
     index: 19,
-    text: "YOU THINK YOU CAN ATTACK ME IN MY ONW HOME!!!!",
+    text: "YOU THINK YOU CAN ATTACK ME IN MY OWN HOME!!!!",
     options: [
       {
         text: "Continue",
         nextText: 100,
-        action: () => {
-          // displayEnemey("assets/pngegg (2).png","weakSkeleton1")
-          // displayEnemey("assets/pngegg (2).png","weakSkeleton2")
-        },
+        action: () => {},
       },
     ],
   },
@@ -560,19 +555,36 @@ const textNodes = [
     options: [
       {
         text: "end game",
-        nextText:22,
-        action:()=>{
-          location.reload()
-        }
+        nextText: 22,
+        action: () => {
+          location.reload();
+        },
       },
     ],
   },
   {
-    index:22,
-    text:"Thank you for playing my game.",
-    options:[{
-      text:"ok"
-    }]
+    index: 23,
+    text: `I'm sorry adventure ${localStorage.getItem(
+      "playerName"
+    )} but it seems you have died. Please click start again and restart your adventure. The village of Nif still needs your help!  `,
+    options: [
+      {
+        text: "start again",
+        nextText: 22,
+        action: () => {
+          location.reload();
+        },
+      },
+    ],
+  },
+  {
+    index: 22,
+    text: "Thank you for playing my game.",
+    options: [
+      {
+        text: "ok",
+      },
+    ],
   },
   {
     index: 100,
@@ -582,12 +594,13 @@ const textNodes = [
         text: "keep fighting",
         action: () => {
           attacker.attack();
-          console.log(attacker)
+          console.log(attacker);
           console.log(adventurer.health);
-          console.log(adventurer+"object")
+          console.log(adventurer.attacks.superAxeCheck + "object");
           console.log(typeof adventurer.health);
           console.log(attacker.attacks.boneSlash);
-          displayHealth(attacker)
+          displayHealth(attacker);
+          checkWinOrLose(attacker);
         },
         nextText: 101,
       },
@@ -600,12 +613,11 @@ const textNodes = [
       {
         text: "attack with sword",
         action: () => {
-          adventurer.attack(sword,attacker);
+          adventurer.attack(sword, attacker);
           checkWinOrLose(attacker);
-          console.log(attacker)
-          console.log(attacker.health)
-          displayHealth(attacker)
-          //showText(100,textNodes)
+          console.log(attacker);
+          console.log(attacker.health);
+          displayHealth(attacker);
         },
         nextText: 100,
       },
@@ -613,22 +625,22 @@ const textNodes = [
         text: "attack with Axe",
         nextText: 100,
         requirment: superAxe,
-        action:()=>{
-          adventurer.attack
-        }
+        action: () => {
+          adventurer.attack(superAxe, attacker);
+          checkWinOrLose(attacker);
+          displayHealth(attacker);
+        },
       },
     ],
   },
   {
     index: 2,
-    text: "you have defeated you'er foe. Congratulations!!",
+    text: "You have defeated your foe. Congratulations!!",
     options: [
       {
         text: "Lets warp this up!",
         nextText: 0,
-        action: () => {
-         // showText(keepState, textNodes);
-        },
+        action: () => {},
       },
     ],
   },
@@ -654,14 +666,13 @@ const showText = (textIndex, nodes) => {
   }
 
   //adding button text
-  currentTextNode.options.forEach(
-    (options) => {
-      console.log(options.requirment)
-      console.log(adventurer.inventory)
-      console.log(options.requirment===undefined)
-  console.log(options.requirment in adventurer.inventory)
-  console.log(checkRequirement(options))
-      if(checkRequirement(options)){
+  currentTextNode.options.forEach((options) => {
+    console.log(options.requirment);
+    console.log(adventurer.inventory);
+    console.log(options.requirment === undefined);
+    console.log(options.requirment in adventurer.inventory);
+    console.log(checkRequirement(options));
+    if (checkRequirement(options)) {
       const button = document.createElement("button");
       button.innerText = options.text;
       button.classList.add("btn");
@@ -669,27 +680,27 @@ const showText = (textIndex, nodes) => {
       button.addEventListener("click", () => clickOption(options, nodes));
       console.log(button);
     }
-    }
-  );
+  });
 };
 const clickOption = (options, nodes) => {
   const nextTextId = options.nextText;
-  
+
   state = Object.assign(state, options.setState);
-  showText(nextTextId, nodes)
+  showText(nextTextId, nodes);
   if ("action" in options) {
     options.action();
-  } 
-}
-;
-
+  }
+};
 const checkRequirement = (options) => {
-  return options.requirment===undefined|| options.requirment in adventurer.inventory
+  return (
+    options.requirment === undefined ||
+    adventurer.attacks.superAxeCheck === true
+  );
 };
 
 const checkWinOrLose = (enemy) => {
   if (adventurer.health <= 0) {
-    textElement.innerText = "Im sorry Adventure but you have died";
+    showText(23, textNodes);
   } else if (enemy.health <= 0) {
     showText(keepState, textNodes);
   }
@@ -702,22 +713,33 @@ const letsFight = (attacker, node) => {
   console.log(attacker);
 };
 
-const displayHealth =(enemy)=>{
-  const playerHealth =document.getElementById("playerHealth")
-  const enemyHealth = document.getElementById("enemyHealth")
-  
-  if (enemy===null)
-  {
-    playerHealth.innerText = `Adventure's health: ${adventurer.health}`
-   
-    
-  } else{
-    enemyHealth.innerText = `${enemy.name}'s health: ${enemy.health}`
-    playerHealth.innerText = `Adventure's health: ${adventurer.health}`
-  }
+const displayHealth = (enemy) => {
+  const playerHealth = document.getElementById("playerHealth");
+  const enemyHealth = document.getElementById("enemyHealth");
 
-}
+  if (enemy === null) {
+    playerHealth.innerText = `Adventure's health: ${adventurer.health}`;
+  } else {
+    enemyHealth.innerText = `${enemy.name}'s health: ${enemy.health}`;
+    playerHealth.innerText = `Adventure's health: ${adventurer.health}`;
+  }
+};
 
 console.log(Player);
-startStartGame()
-//startGame();
+startStartGame();
+
+// Ice box
+// const displayClickableImg =(id,location,callback)=>{
+//   return makeClickableImage(id,location,callback)
+// }
+
+// const attackHiddenEnemeys = (source, id, index) => {
+//   console.log("jlh");
+//   // displayEnemey(source,id)
+//   // showText(index,textNodes)
+// };
+
+//displayEnemey("assets/image-from-rawpixel-id-6265744-original.png", "hiddenSkull")
+
+// displayEnemey("assets/pngegg (2).png","weakSkeleton1")
+// displayEnemey("assets/pngegg (2).png","weakSkeleton2")
