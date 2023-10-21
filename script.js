@@ -8,7 +8,7 @@ const startStartGame = () => {
   const playerNameInput = document.getElementById("input");
   const startGameBtn = document.getElementById("startGame");
   textElement.innerText =
-    "Hello adventure before we start our adventure tell me your name.";
+    "Hello adventurer before we start our adventure tell me your name.";
   startGameBtn.addEventListener("click", () => {
     localStorage.setItem("playerName", playerNameInput.value);
 
@@ -197,7 +197,7 @@ const textNodes = [
     index: 1,
     text: `Ok ${localStorage.getItem(
       "playerName"
-    )} now that you feel well enough to get moving I'll bring you up to speed. Last night there was an attack on our little village of Nif. An evil wizard stole our most precious jem. The Ruby of Protection. It's the gem that has kept our little village heathy, happy, and safe. Now that It's gone everyone is already getting sick and it's up to you to go and get it back. Do you accept this quest?`,
+    )} now that you feel well enough to get moving I'll bring you up to speed. Last night there was an attack on our little village of Nif. An evil wizard stole our most precious gem. The Ruby of Protection. It's the gem that has kept our little village heathy, happy, and safe. Now that It's gone everyone is already getting sick and it's up to you to go and get it back. Do you accept this quest?`,
     options: [
       {
         text: "Yes I accept!",
@@ -438,7 +438,7 @@ const textNodes = [
   },
   {
     index: 16,
-    text: "That's King Tabak!! 'Hello adventure my name is King Tabak. Iv'e been in hiding since my last battle with the evil wizard. He almost killed me that day and I just barely escaped as he vowed to end my life. I ran because I knew I couldn't defeat him without the Eye of Goodness. It has taken me years to find it but I finally found it. I'm too weak to use it now, but you are not. Will you take it along with this health potion?",
+    text: "That's King Tabak!! 'Hello adventurer my name is King Tabak. Iv'e been in hiding since my last battle with the evil wizard. He almost killed me that day and I just barely escaped as he vowed to end my life. I ran because I knew I couldn't defeat him without the Eye of Goodness. It has taken me years to find it but I finally found it. I'm too weak to use it now, but you are not. Will you take it along with this health potion?",
     options: [
       {
         text: "Yes, I need all the help I can get.",
@@ -466,7 +466,7 @@ const textNodes = [
   },
   {
     index: 17,
-    text: "That Eye of Goodness. When you use it the evil wizard will lose 75 points of health out of his 150, and it give you protection from evil magic. You will take less damage from his attack when you activate it when you are fight him. You might just have a chance to bet him!",
+    text: "That Eye of Goodness. When you use it the evil wizard will lose 75 points of health out of his 150, and it give you protection from evil magic. You will take less damage from his attack if you activate it when you fight him. You might just have a chance to bet him!",
     options: [
       {
         text: "Awesome well let's go",
