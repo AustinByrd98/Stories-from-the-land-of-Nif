@@ -5,7 +5,7 @@
 <img src="./assets/Screenshot 2023-10-21 at 10.49.04 AM.png" alt="game screen"/>
 
 ## Description
-Stories From the Land of Nif is my game of this size. It has this old game feel where the text box is the means of communication
+Stories From the Land of Nif is my game of this size. It has this old game feel where the text box is the means of communication. You also have a number of decisions that will change the outcome of the game. So please give it a try and feel free to leave me your feedback. I am always excited to learn and grow.
 ## Table of Contents
 * [Technologies Used](#technologiesused)
 * [Features](#features)
@@ -21,11 +21,11 @@ Stories From the Land of Nif is my game of this size. It has this old game feel 
 
 
 ## Features
-* Users can make real decisions that will change the out come of the game
+* Users can make real decisions that will change the outcome of the game
 * Users can collect items along their adventure, some of which can be used right from the inventory
 * Users will fight monsters, and get loot from those monsters 
-* Users can go on aside quest that may help them later
-* Users are able to lose this game, but they are also able o win this game
+* Users can go on aside quests that may help them later
+* Users are able to lose this game, but they are also able to win this game
 
 ## Trello Planning
 * https://trello.com/b/OWMrKn48/stores-from-the-land-of-nif
@@ -34,8 +34,8 @@ Stories From the Land of Nif is my game of this size. It has this old game feel 
 * Design elements implemented using HTML5 and CSS3. 
 
 
-## <a name="nextsteps"></a>Project Next Steps
-* I have plans on expanding the game to have more stories and maybe the abbility to pick your story
+## <a name="next-steps"></a>Project Next Steps
+* I have plans on expanding the game to have more stories and maybe the ability to pick your story
 * Users will be able to upgrade their items from the inventory
 
 ## <a name="deployment"></a>Deployed Link
@@ -49,7 +49,7 @@ Stories From the Land of Nif is my game of this size. It has this old game feel 
 
 
 ## <a name="author"></a>About The Author
-I am a software engineer who is a natural builder-from laying block as a structural engineer to writing blocks of code as a developer. In my previous careers I have counseled people, facilitated large group education, and been a hard working tradesperson as a farmhand and diesel mechanic. I bring a strong work ethic skilled in using empathetic communication along with critical thinking skills and a knack for problem solving with groups of people to any team and believe these are all vital to cross team success to create efficient solutions for clients. I build community and applications with purpose.
+I am a software engineer who is a natural builder-from laying block as a structural engineer to writing blocks of code as a developer. In my previous careers, I have counseled people, facilitated large group education, and been a hard-working tradesperson as a farmhand and diesel mechanic. I bring a strong work ethic skilled in using empathetic communication along with critical thinking skills and a knack for problem-solving with groups of people to any team and believe these are all vital to cross-team success to create efficient solutions for clients. I build community and applications with purpose.
 
 
 
