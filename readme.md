@@ -1,6 +1,6 @@
 # Stories from the land of Nif
 
-#### A Game Where You are the Adventure
+#### A Game Where You are the Adventurer
 <img src="./assets/Screenshot 2023-10-21 at 10.48.22 AM.png" alt="game screen"/>
 <img src="./assets/Screenshot 2023-10-21 at 10.49.04 AM.png" alt="game screen"/>
 
